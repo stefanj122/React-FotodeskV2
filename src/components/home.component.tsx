@@ -4,18 +4,12 @@ import { getPaginationItems } from "../lib/pagination";
 import InfiniteScroll from "react-infinite-scroll-component";
 import UserService from "../services/user.service";
 import { Meta } from "../types/meta.type";
-import { IUser } from "../types/user.type";
+import { Image } from "../types/image.type";
 
 type Props = {};
 
 type State = {
-  content: Array<{
-    id: number;
-    name: string;
-    path: string;
-    tags: string;
-    user: IUser;
-  }>;
+  content: Image[];
   meta: Meta;
 };
 export default class Home extends Component<Props, State> {
@@ -46,7 +40,7 @@ export default class Home extends Component<Props, State> {
       }
     );
   }
-  componentDidMountWithSearch(search: string) {
+  search(search: string) {
     UserService.getSearchResult(search).then(
       (response) => {
         this.setState({
@@ -93,7 +87,7 @@ export default class Home extends Component<Props, State> {
             debounceTimeout={300}
             className="form-control rounded"
             onChange={(query) => {
-              this.componentDidMountWithSearch(query.target.value);
+              this.search(query.target.value);
             }}
           ></DebounceInput>
         </div>

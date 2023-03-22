@@ -97,7 +97,7 @@ class App extends Component<Props, State> {
 
             {currentUser && (
               <li className="nav-item">
-                <Link to={"/user"} className="nav-link">
+                <Link to={"/user/upload"} className="nav-link">
                   User
                 </Link>
               </li>
@@ -143,8 +143,8 @@ class App extends Component<Props, State> {
             <Route path="/profile" element={<Profile />} />
             <Route path="/user/*" element={<BoardUser />} />
             <Route path="/mod" element={<BoardModerator />} />
-            <Route path="/admin" element={<BoardAdmin />} />
-            {/* <Route path="/user/comment" element={<BoardAdmin />} /> */}
+            <Route path="/admin/*" element={<BoardAdmin />} />
+            {/* <Route path="/user/:id" element={<BoardAdmin />} /> */}
           </Routes>
         </div>
 

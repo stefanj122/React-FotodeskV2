@@ -3,7 +3,7 @@ import authHeader from "./auth-header";
 
 const API_URL = "http://localhost:3000/admin/images";
 
-class UploadService {
+class ImageService {
   upload(file: File[]) {
     let fromData = new FormData();
     for (const image of file) {
@@ -19,6 +19,20 @@ class UploadService {
   setTags(data: { id: string | undefined; tags: string }[]) {
     return axios.put(API_URL + "/tags", data, { headers: authHeader() });
   }
+  getImages(perPage = 9, page = 1, isApproved?: boolean) {
+    return axios.get(
+      API_URL +
+        "?page=" +
+        page +
+        "&perPage=" +
+        perPage +
+        "&isApproved=" +
+        isApproved,
+      {
+        headers: authHeader(),
+      }
+    );
+  }
 }
-const uploadService = new UploadService();
+const uploadService = new ImageService();
 export default uploadService;

@@ -1,11 +1,12 @@
 import { Component } from "react";
 
 import UserService from "../services/user.service";
+import { IUser } from "../types/user.type";
 
 type Props = {};
 
 type State = {
-  content: string;
+  content: IUser | undefined;
 };
 
 export default class BoardUser extends Component<Props, State> {
@@ -13,7 +14,7 @@ export default class BoardUser extends Component<Props, State> {
     super(props);
 
     this.state = {
-      content: "",
+      content: undefined,
     };
   }
 
@@ -41,7 +42,7 @@ export default class BoardUser extends Component<Props, State> {
     return (
       <div className="container">
         <header className="jumbotron">
-          <h3>{this.state.content}</h3>
+          <h3>{this.state.content && this.state.content.displayName}</h3>
         </header>
       </div>
     );
