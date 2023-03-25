@@ -33,6 +33,14 @@ class ImageService {
       }
     );
   }
+
+  getImage(imageId: number, page?: number, perPage?: number) {
+    return axios.get(`http://localhost:3000/public/images/${imageId}`);
+  }
+
+  imagesApproval(data: { id: number; isApproved: boolean }[]) {
+    return axios.put(API_URL + "/approval", data, { headers: authHeader() });
+  }
 }
 const uploadService = new ImageService();
 export default uploadService;

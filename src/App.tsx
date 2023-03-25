@@ -15,6 +15,7 @@ import BoardModerator from "./components/board-moderator.component";
 import BoardAdmin from "./components/board-admin.component";
 
 import EventBus from "./common/EventBus";
+import SingleImage from "./components/images/single-image-component";
 
 type Props = {};
 
@@ -134,7 +135,7 @@ class App extends Component<Props, State> {
           )}
         </nav>
 
-        <div className="container mt-3">
+        <div className="container mt-3" id="scrollable">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/home" element={<Home />} />
@@ -144,7 +145,7 @@ class App extends Component<Props, State> {
             <Route path="/user/*" element={<BoardUser />} />
             <Route path="/mod" element={<BoardModerator />} />
             <Route path="/admin/*" element={<BoardAdmin />} />
-            {/* <Route path="/user/:id" element={<BoardAdmin />} /> */}
+            <Route path="/images/:imageId" element={<SingleImage />} />
           </Routes>
         </div>
 

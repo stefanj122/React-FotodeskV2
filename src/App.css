@@ -86,3 +86,9 @@ body {
 .jumbotron1 {
   min-height: 640px;
 }
+.comment {
+  background-color: aquamarine;
+  border-color: #8f4df8;
+  border-style: solid;
+  text-align: center;
+}

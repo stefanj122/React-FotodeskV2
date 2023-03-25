@@ -1,10 +1,11 @@
-import { Component } from "react";
+import React, { Component } from "react";
 import { DebounceInput } from "react-debounce-input";
 import { getPaginationItems } from "../lib/pagination";
-import InfiniteScroll from "react-infinite-scroll-component";
 import UserService from "../services/user.service";
 import { Meta } from "../types/meta.type";
 import { Image } from "../types/image.type";
+import { Route, Routes } from "react-router-dom";
+import SingleImage from "./images/single-image-component";
 
 type Props = {};
 
@@ -58,11 +59,12 @@ export default class Home extends Component<Props, State> {
       }
     );
   }
-  async paginate(page = 1, perPage = 9) {
-    console.log(page);
+
+  async paginate(page: number, perPage: number) {
     const response = await UserService.getPublicContent(perPage, page);
     this.setState({
-      content: [...this.state.content, ...response.data.images],
+      // content: [...this.state.content, ...response.data.images],
+      content: response.data.images,
       meta: response.data.meta,
     });
   }
@@ -93,36 +95,59 @@ export default class Home extends Component<Props, State> {
         </div>
         {this.state.content && (
           <header className="jumbotron jumbotron1">
-            <InfiniteScroll
-              dataLength={this.state.meta.count}
-              next={() => this.paginate(this.state.meta.currentPage + 1)}
-              hasMore={
-                this.state.meta.currentPage !==
-                Math.ceil(this.state.meta.count / this.state.meta.perPage)
-              }
-              loader={<div key={0}>Loading...</div>}
-              endMessage={<h4>Nothing more to show</h4>}
-            >
-              {this.state.content && (
-                <div className="jumbotron1">
+            {this.state.content && (
+              <div
+                style={{
+                  display: "grid",
+                  textAlign: "center",
+                  minHeight: "700px",
+                }}
+              >
+                <h3>
                   {this.state.content.map((content) => (
-                    <a key={content.id} href={content.path}>
-                      <img
-                        title={content.name}
-                        className="img"
-                        src={content.path}
-                        alt={content.name}
-                      />
-                    </a>
+                    <div
+                      key={content.id}
+                      style={{ display: "inline-grid", justifyItems: "center" }}
+                    >
+                      <h1>
+                        <a
+                          key={content.id}
+                          href={`http://localhost:3006/images/${content.id}`}
+                        >
+                          <img
+                            title={content.name}
+                            className="img"
+                            src={content.path}
+                            alt={content.name}
+                          />
+                        </a>
+                      </h1>
+                      <div style={{ minHeight: "30px" }}>
+                        {content.tags && (
+                          <h6>
+                            {"#" +
+                              content.tags
+                                .replaceAll(" ", ",")
+                                .split(",")
+                                .filter((value) => value)
+                                .join("#")}
+                          </h6>
+                        )}
+                      </div>
+                    </div>
                   ))}
-                </div>
-              )}
-            </InfiniteScroll>
+                </h3>
+              </div>
+            )}
           </header>
         )}
         <div
           style={{
             textAlign: "center",
+            position: "fixed",
+            bottom: 30,
+            right: 0,
+            left: 0,
           }}
         >
           <footer>
@@ -153,7 +178,7 @@ export default class Home extends Component<Props, State> {
                       : "btn btn-primary"
                   }
                 >
-                  {item}
+                  {item ? item : "..."}
                 </button>
               );
             })}
